@@ -79,7 +79,9 @@ public class PterodactylAPI {
 
 	/**
 	 * Set the URL for panel
-	 * @param url URL of panel
+	 * </b>
+	 * For default this method set if the API use secure or not secure conections, you can change this using {@link PterodactylAPI#setSecureConection(boolean)}
+	 * @param url URL of panel </b> Example of URL: panel.domain.com, www.paneldomain.com, paneldomain.com, gamespanel.com/panel
 	 */
 	public void setMainURL(String url) {
 		this.secureConection = url.contains("https://");
@@ -90,28 +92,46 @@ public class PterodactylAPI {
 		this.mainURL = url;
 	}
 
+	/**
+	 * Get the URL of panel
+	 * @return a string representing the URL of panel
+	 */
 	public String getMainURL() {
-		return (secureConection) ? "https://" + mainURL : "http://" + mainURL;
+		return (isSecureConection()) ? "https://" + mainURL : "http://" + mainURL;
 	}
-	
+
+	/**
+	 * Send a log
+	 * @param level Level of log
+	 * @param msg Message of log
+	 */
 	public void log(Level level, String msg){
 		this.logger.log(level, "[PterodactylAPI] " + msg);
 	}
-	
+
+	/**
+	 * Process a request info valid key for requests
+	 * @param url URL of request
+	 * @return a valid key of process or null
+	 * @throws Exception In case of conversion to valid HMAC
+	 */
 	public String hmac(String url) throws Exception {
 		try {
 			Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
-			SecretKeySpec secret_key = new SecretKeySpec(secretKey.getBytes(), "HmacSHA256");
+			SecretKeySpec secret_key = new SecretKeySpec(getSecretKey().getBytes(), "HmacSHA256");
 			sha256_HMAC.init(secret_key);
-			String hash = Base64.encodeBase64String(sha256_HMAC.doFinal(url.getBytes()));
-			return hash;
-		}
-		catch (Exception e){
-			log(Level.SEVERE, " HMAC Error");
+			return Base64.encodeBase64String(sha256_HMAC.doFinal(url.getBytes()));
+		} catch (Exception e){
+			log(Level.SEVERE, "HMAC Error.");
 			return null;
 		}
 	}
 
+	/**
+	 * Process the {@link InputStream} into {@link StringBuffer} for work
+	 * @param in a valid {@link InputStream}
+	 * @return a valid {@link StringBuffer} or {@link null}
+	 */
 	public StringBuffer readResponse(InputStream in) {
 		try {
 			BufferedReader idn = new BufferedReader(new InputStreamReader(in));
