@@ -70,6 +70,9 @@ public class DELETEMethods {
 			connection.setRequestMethod("DELETE");
 			connection.setRequestProperty("User-Agent", "Pterodactyl Java-API");
 			connection.setRequestProperty("Authorization", "Bearer " + hmac.replaceAll("\n", ""));
+			connection.setRequestProperty("Content-Type","application/json");
+			connection.setRequestProperty("Accept","application/vnd.pterodactyl.v1+json");
+
 			int responseCode = connection.getResponseCode();
 			if (responseCode == HttpURLConnection.HTTP_NO_CONTENT) {
 				return true;

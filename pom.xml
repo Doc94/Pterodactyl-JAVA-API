@@ -2,15 +2,36 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fr.Axeldu18.Pterodactyl-JAVA-API</groupId>
     <artifactId>Pterodactyl-JAVA-API</artifactId>
-    <version>1.4-SNAPSHOT</version>
+    <version>1.5-SNAPSHOT</version>
     <packaging>jar</packaging>
+
+	<issueManagement>
+		<url>https://github.com/Axeldu18/Pterodactyl-JAVA-API/issues</url>
+		<system>GitHub Issues</system>
+	</issueManagement>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 
     <developers>
         <developer>
             <name>Axel Vatan AKA Axeldu18</name>
             <url>http://axelvatan.asylyus.fr</url>
         </developer>
+		<developer>
+			<name>Pedro Arenas (Doc)</name>
+			<url>http://mrdoc.me</url>
+		</developer>
     </developers>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
     <dependencies>
 		<dependency>

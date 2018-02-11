@@ -48,6 +48,8 @@ public class PUTMethods {
 			connection.setRequestMethod("PUT");
 			connection.setRequestProperty("User-Agent", "Pterodactyl Java-API");
 			connection.setRequestProperty("Authorization", "Bearer " + hmac.replaceAll("\n", ""));
+			connection.setRequestProperty("Content-Type","application/json");
+			connection.setRequestProperty("Accept","application/vnd.pterodactyl.v1+json");
 			connection.setDoOutput(true);
 
 			DataOutputStream wr = new DataOutputStream(connection.getOutputStream());

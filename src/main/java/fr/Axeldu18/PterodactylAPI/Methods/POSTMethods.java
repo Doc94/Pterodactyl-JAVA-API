@@ -128,14 +128,12 @@ public class POSTMethods {
 			URL url = new URL(methodURL);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			String hmac = main.getPublicKey() + "." + main.hmac(methodURL+data);
-			System.out.println("DEBUG CALL: " + methodURL);
-			System.out.println("DEBUG CALL2: " + methodURL+data);
-			System.out.println("DEBUG CALL3: " + hmac);
 
 			connection.setRequestMethod("POST");
 			connection.setRequestProperty("User-Agent", "Pterodactyl Java-API");
 			connection.setRequestProperty("Authorization", "Bearer " + hmac.replaceAll("\n", ""));
 			connection.setRequestProperty("Content-Type","application/json");
+			connection.setRequestProperty("Accept","application/vnd.pterodactyl.v1+json");
 			connection.setDoOutput(true);
 
 			DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
