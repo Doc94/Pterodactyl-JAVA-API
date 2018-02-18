@@ -1,6 +1,10 @@
 # Pterodactyl-JAVA-API
  A java adaptation for the use of the Pterodactyl panel API
 
+# Important about older versions
+The actual version (1.5) of PterodactylAPI only supports for panels since 0.7, panels
+with older version not work correctly, this is for changes since 0.7 in routes url, and how to work the API.
+
 # How to use (VER:1.5)
 For use you need to call the class PterodactylAPI like this:
 ```java 

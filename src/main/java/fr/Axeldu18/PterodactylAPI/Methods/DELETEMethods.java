@@ -90,9 +90,9 @@ public class DELETEMethods {
 	@AllArgsConstructor
 	public enum Methods{
 		
-		USER("api/admin/users/{params}"), //Returns information about a single user.
-		SERVER("api/admin/servers/{params}"), //Lists information about a single server.
-		NODE("api/admin/nodes/{params}"); //View data for a single node.		
+		USER("api/application/users/{params}"), //Returns information about a single user.
+		SERVER("api/application/servers/{params}"), //Lists information about a single server.
+		NODE("api/application/nodes/{params}"); //View data for a single node.
 		
 		private @Getter String URL;
 	}

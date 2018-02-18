@@ -73,12 +73,12 @@ public class PUTMethods {
 	@AllArgsConstructor
 	public enum Methods{
 
-		USERS_UPDATE_USER("api/admin/users/{params}"), //Update specified user
+		USERS_UPDATE_USER("api/application/users/{params}"), //Update specified user
 		
-		SERVERS_DETAIL_SERVER("api/admin/servers/12/details"), //Get details of specified server
-		SERVERS_CONTAINER_SERVER("api/admin/servers/{params}/container"),
-		SERVERS_BUILD_SERVER("api/admin/servers/{params}/build"),
-		SERVERS_STARTUP_SERVER("api/admin/server{params}/startup");
+		SERVERS_DETAIL_SERVER("api/application/servers/12/details"), //Get details of specified server
+		SERVERS_CONTAINER_SERVER("api/application/servers/{params}/container"),
+		SERVERS_BUILD_SERVER("api/application/servers/{params}/build"),
+		SERVERS_STARTUP_SERVER("api/application/server{params}/startup");
 		
 		private @Getter String URL;
 	}

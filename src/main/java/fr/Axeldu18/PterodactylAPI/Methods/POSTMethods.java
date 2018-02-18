@@ -157,11 +157,11 @@ public class POSTMethods {
 	@AllArgsConstructor
 	public enum Methods{
 
-		USERS_CREATE_USER("api/admin/users"), //Create a new user on the system.
+		USERS_CREATE_USER("api/application/users"), //Create a new user on the system.
 
-		SERVERS_CREATE_SERVER("api/admin/servers"), //Create a new server on the panel and associated daemon.
+		SERVERS_CREATE_SERVER("api/application/servers"), //Create a new server on the panel and associated daemon.
 
-		NODES_CREATE_NODE("api/admin/nodes"); //Creates a new node on the system.
+		NODES_CREATE_NODE("api/application/nodes"); //Creates a new node on the system.
 
 		private @Getter String URL;
 	}

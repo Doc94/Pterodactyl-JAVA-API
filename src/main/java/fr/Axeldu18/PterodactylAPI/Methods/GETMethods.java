@@ -87,20 +87,20 @@ public class GETMethods {
 	
 	@AllArgsConstructor
 	public enum Methods{
-		USERS_LIST_USERS("api/admin/users"), //Returns all users currently existing on the system as a paginated result.
-		USERS_SINGLE_USER("api/admin/users/{params}"), //Returns information about a single user.
+		USERS_LIST_USERS("api/application/users"), //Returns all users currently existing on the system as a paginated result.
+		USERS_SINGLE_USER("api/application/users/{params}"), //Returns information about a single user.
 		
-		SERVERS_LIST_SERVERS("api/admin/servers"), //List all servers on the system.
-		SERVERS_SINGLE_SERVER("api/admin/servers/{params}"), //Lists information about a single server.
+		SERVERS_LIST_SERVERS("api/application/servers"), //List all servers on the system.
+		SERVERS_SINGLE_SERVER("api/application/servers/{params}"), //Lists information about a single server.
 		
-		NODES_LIST_NODES("api/admin/nodes"), //Lists all nodes in the system.
-		NODES_SINGLE_NODE("api/admin/nodes/{params}"), //View data for a single node.
-		NODES_NODE_CONFIG("api/admin/nodes/{params}/config"), //Returns the config file contents for the node daemon.
+		NODES_LIST_NODES("api/application/nodes"), //Lists all nodes in the system.
+		NODES_SINGLE_NODE("api/application/nodes/{params}"), //View data for a single node.
+		NODES_NODE_CONFIG("api/application/nodes/{params}/config"), //Returns the config file contents for the node daemon.
 		
-		LOCATIONS_LIST_LOCATIONS("api/admin/locations"), //Returns a list of all locations on the system and associated nodes.
+		LOCATIONS_LIST_LOCATIONS("api/application/locations"), //Returns a list of all locations on the system and associated nodes.
 		
-		SERVICES_LIST_SERVICES("api/admin/services"), //Returns a listing of all services on the system.
-		SERVICES_SINGLE_SERVICE("api/admin/services/{params}"); //Returns detailed information about a single service on the system.
+		SERVICES_LIST_SERVICES("api/application/services"), //Returns a listing of all services on the system.
+		SERVICES_SINGLE_SERVICE("api/application/services/{params}"); //Returns detailed information about a single service on the system.
 		
 		private @Getter String URL;
 	}
