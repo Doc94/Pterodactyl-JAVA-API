@@ -55,8 +55,7 @@ public class PterodactylAPI {
 	private @Getter Services services;
 	//CONFIGURATION
 	private String mainURL;
-	private @Getter @Setter String publicKey;
-	private @Getter @Setter String secretKey;
+	private @Getter @Setter String applicationKey;
 	private @Getter @Setter boolean secureConection;
 
 	public static void main(String[] args){
@@ -107,24 +106,6 @@ public class PterodactylAPI {
 	 */
 	public void log(Level level, String msg){
 		this.logger.log(level, "[PterodactylAPI] " + msg);
-	}
-
-	/**
-	 * Process a request info valid key for requests
-	 * @param url URL of request
-	 * @return a valid key of process or null
-	 * @throws Exception In case of conversion to valid HMAC
-	 */
-	public String hmac(String url) throws Exception {
-		try {
-			Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
-			SecretKeySpec secret_key = new SecretKeySpec(getSecretKey().getBytes(), "HmacSHA256");
-			sha256_HMAC.init(secret_key);
-			return Base64.encodeBase64String(sha256_HMAC.doFinal(url.getBytes()));
-		} catch (Exception e){
-			log(Level.SEVERE, "HMAC Error.");
-			return null;
-		}
 	}
 
 	/**
