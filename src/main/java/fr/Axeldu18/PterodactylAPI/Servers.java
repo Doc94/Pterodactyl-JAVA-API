@@ -52,36 +52,41 @@ public class Servers {
 		for(int i=0;i<jsonArray.length();i++){
 			JSONObject serverJSON = jsonArray.getJSONObject(i);
 			Server server = new Server();
-			server.setId(serverJSON.getInt("id"));
-			server.setType(serverJSON.getString("type"));
+			server.setType(serverJSON.getString("object"));
 			JSONObject serverAttributesJSON = serverJSON.getJSONObject("attributes");
 			ServerAttributes serverAttributes = new ServerAttributes();
+			serverAttributes.setId(serverAttributesJSON.getInt("id"));
 			serverAttributes.setUuid(serverAttributesJSON.getString("uuid"));
-			serverAttributes.setUuidShort(serverAttributesJSON.getString("uuidShort"));
-			serverAttributes.setNodeID(serverAttributesJSON.getInt("node_id"));
+			serverAttributes.setIdentifier(serverAttributesJSON.getString("identifier"));
 			serverAttributes.setName(serverAttributesJSON.getString("name"));
 			serverAttributes.setDescription(serverAttributesJSON.getString("description"));
-			serverAttributes.setSkipScripts(serverAttributesJSON.getBoolean("skip_scripts"));
-			serverAttributes.setSuspended(serverAttributesJSON.getInt("suspended"));
-			serverAttributes.setOwnerID(serverAttributesJSON.getInt("owner_id"));
-			serverAttributes.setMemory(serverAttributesJSON.getInt("memory"));
-			serverAttributes.setSwap(serverAttributesJSON.getInt("swap"));
-			serverAttributes.setDisk(serverAttributesJSON.getInt("disk"));
-			serverAttributes.setIo(serverAttributesJSON.getInt("io"));
-			serverAttributes.setCpu(serverAttributesJSON.getInt("cpu"));
-			serverAttributes.setOomDisabled(serverAttributesJSON.getInt("oom_disabled"));
-			serverAttributes.setAllocationID(serverAttributesJSON.getInt("allocation_id"));
-			serverAttributes.setServiceID(serverAttributesJSON.getInt("service_id"));
-			serverAttributes.setOptionID(serverAttributesJSON.getInt("option_id"));
-			//serverAttributes.setPackID(serverAttributesJSON.getInt("pack_id"));
-			serverAttributes.setStartup(serverAttributesJSON.getString("startup"));
-			serverAttributes.setImage(serverAttributesJSON.getString("image"));
-			serverAttributes.setUsername(serverAttributesJSON.getString("username"));
-			serverAttributes.setInstalled(serverAttributesJSON.getInt("installed"));
+			serverAttributes.setSuspended(serverAttributesJSON.getBoolean("suspended"));
+			serverAttributes.setOwnerID(serverAttributesJSON.getInt("user"));
+
+			JSONObject serverLimitationsJSON = serverAttributesJSON.getJSONObject("limits");
+
+			serverAttributes.setMemory(serverLimitationsJSON.getInt("memory"));
+			serverAttributes.setSwap(serverLimitationsJSON.getInt("swap"));
+			serverAttributes.setDisk(serverLimitationsJSON.getInt("disk"));
+			serverAttributes.setIo(serverLimitationsJSON.getInt("io"));
+			serverAttributes.setCpu(serverLimitationsJSON.getInt("cpu"));
+
+			serverAttributes.setNodeID(serverAttributesJSON.getInt("node"));
+			serverAttributes.setAllocationID(serverAttributesJSON.getInt("allocation"));
+			serverAttributes.setNestID(serverAttributesJSON.getInt("nest"));
+			serverAttributes.setEggID(serverAttributesJSON.getInt("egg"));
+			//serverAttributes.setPackID(null); //Can get null values, and cause errors
+
+			JSONObject serverContainerJSON = serverAttributesJSON.getJSONObject("container");
+			serverAttributes.setStartup(serverContainerJSON.getString("startup_command"));
+			serverAttributes.setImage(serverContainerJSON.getString("image"));
+			serverAttributes.setInstalled(serverContainerJSON.getBoolean("installed"));
+
+
 			serverAttributes.setCreatedAT(serverAttributesJSON.getString("created_at"));
 			serverAttributes.setUpdatedAT(serverAttributesJSON.getString("updated_at"));
 			server.setAttributes(serverAttributes);
-			serversMap.put(server.getId(), server);
+			serversMap.put(server.getAttributes().getId(), server);
 		}
 		return serversMap;
 	}
@@ -99,32 +104,37 @@ public class Servers {
 		}
 		JSONObject serverJSON = jsonObject.getJSONObject("data");
 		Server server = new Server();
-		server.setId(serverJSON.getInt("id"));
-		server.setType(serverJSON.getString("type"));
+		server.setType(serverJSON.getString("object"));
 		JSONObject serverAttributesJSON = serverJSON.getJSONObject("attributes");
 		ServerAttributes serverAttributes = new ServerAttributes();
+		serverAttributes.setId(serverAttributesJSON.getInt("id"));
 		serverAttributes.setUuid(serverAttributesJSON.getString("uuid"));
-		serverAttributes.setUuidShort(serverAttributesJSON.getString("uuidShort"));
-		serverAttributes.setNodeID(serverAttributesJSON.getInt("node_id"));
+		serverAttributes.setIdentifier(serverAttributesJSON.getString("identifier"));
 		serverAttributes.setName(serverAttributesJSON.getString("name"));
 		serverAttributes.setDescription(serverAttributesJSON.getString("description"));
-		serverAttributes.setSkipScripts(serverAttributesJSON.getBoolean("skip_scripts"));
-		serverAttributes.setSuspended(serverAttributesJSON.getInt("suspended"));
-		serverAttributes.setOwnerID(serverAttributesJSON.getInt("owner_id"));
-		serverAttributes.setMemory(serverAttributesJSON.getInt("memory"));
-		serverAttributes.setSwap(serverAttributesJSON.getInt("swap"));
-		serverAttributes.setDisk(serverAttributesJSON.getInt("disk"));
-		serverAttributes.setIo(serverAttributesJSON.getInt("io"));
-		serverAttributes.setCpu(serverAttributesJSON.getInt("cpu"));
-		serverAttributes.setOomDisabled(serverAttributesJSON.getInt("oom_disabled"));
-		serverAttributes.setAllocationID(serverAttributesJSON.getInt("allocation_id"));
-		serverAttributes.setServiceID(serverAttributesJSON.getInt("service_id"));
-		serverAttributes.setOptionID(serverAttributesJSON.getInt("option_id"));
-		//serverAttributes.setPackID(serverAttributesJSON.getInt("pack_id"));
-		serverAttributes.setStartup(serverAttributesJSON.getString("startup"));
-		serverAttributes.setImage(serverAttributesJSON.getString("image"));
-		serverAttributes.setUsername(serverAttributesJSON.getString("username"));
-		serverAttributes.setInstalled(serverAttributesJSON.getInt("installed"));
+		serverAttributes.setSuspended(serverAttributesJSON.getBoolean("suspended"));
+		serverAttributes.setOwnerID(serverAttributesJSON.getInt("user"));
+
+		JSONObject serverLimitationsJSON = serverAttributesJSON.getJSONObject("limits");
+
+		serverAttributes.setMemory(serverLimitationsJSON.getInt("memory"));
+		serverAttributes.setSwap(serverLimitationsJSON.getInt("swap"));
+		serverAttributes.setDisk(serverLimitationsJSON.getInt("disk"));
+		serverAttributes.setIo(serverLimitationsJSON.getInt("io"));
+		serverAttributes.setCpu(serverLimitationsJSON.getInt("cpu"));
+
+		serverAttributes.setNodeID(serverAttributesJSON.getInt("node"));
+		serverAttributes.setAllocationID(serverAttributesJSON.getInt("allocation"));
+		serverAttributes.setNestID(serverAttributesJSON.getInt("nest"));
+		serverAttributes.setEggID(serverAttributesJSON.getInt("egg"));
+		//serverAttributes.setPackID(null); //Can get null values, and cause errors
+
+		JSONObject serverContainerJSON = serverAttributesJSON.getJSONObject("container");
+		serverAttributes.setStartup(serverContainerJSON.getString("startup_command"));
+		serverAttributes.setImage(serverContainerJSON.getString("image"));
+		serverAttributes.setInstalled(serverContainerJSON.getBoolean("installed"));
+
+
 		serverAttributes.setCreatedAT(serverAttributesJSON.getString("created_at"));
 		serverAttributes.setUpdatedAT(serverAttributesJSON.getString("updated_at"));
 		server.setAttributes(serverAttributes);
