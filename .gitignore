@@ -73,13 +73,11 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-target/
+target/*
 .idea/
 
 # Eclipse added by Maccie
 Pterodactyl-JAVA-API.iml
-/target/
 .settings/org.eclipse.jdt.core.prefs
 *.prefs
-*.class
 /bin/

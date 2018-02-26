@@ -31,6 +31,5 @@ import lombok.ToString;
 public class Node {
 
 	private @Getter @Setter String type;
-	private @Getter @Setter int id;
 	private @Getter @Setter NodeAttributes attributes;
 }

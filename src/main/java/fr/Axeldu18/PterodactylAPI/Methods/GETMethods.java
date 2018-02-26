@@ -23,16 +23,15 @@ SOFTWARE.
 */
 package fr.Axeldu18.PterodactylAPI.Methods;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.logging.Level;
 
 import fr.Axeldu18.PterodactylAPI.PterodactylAPI;
-import fr.Axeldu18.PterodactylAPI.Methods.DELETEMethods.Methods;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 public class GETMethods {
+
+	final private static String METHOD = "GET";
 	
 	private PterodactylAPI main;
 	
@@ -62,26 +61,7 @@ public class GETMethods {
 
 	
 	private String call(String methodURL){
-		try {
-			URL url = new URL(methodURL);
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
-			connection.setRequestProperty("User-Agent", "Pterodactyl Java-API");
-			connection.setRequestProperty("Authorization", "Bearer " + main.getApplicationKey());
-			connection.setRequestProperty("Content-Type","application/json");
-			connection.setRequestProperty("Accept","application/vnd.pterodactyl.v1+json");
-
-			int responseCode = connection.getResponseCode();
-			if (responseCode == HttpURLConnection.HTTP_OK) {
-				return main.readResponse(connection.getInputStream()).toString();
-			} else {
-				return main.readResponse(connection.getErrorStream()).toString();
-			}
-		} catch (Exception e) {
-			main.log(Level.SEVERE, e.getMessage());
-			e.printStackTrace();
-			return null;
-		}
+		return main.call(METHOD,methodURL,"");
 	}
 	
 	@AllArgsConstructor

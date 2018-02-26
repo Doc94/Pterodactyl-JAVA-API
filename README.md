@@ -12,6 +12,7 @@ PterodactylAPI api = new PterodactylAPI();
 api.setMainURL("URL OF YOUR PANEL");
 api.setapplicationKey("API KEY);
 api.setSecureConection(true|false); //Set secure conection (default false)
+api.setDebug(true|false); //If debug is on the API show more info for testing.
 ```
 Then to retrieve the list of servers on the system you need to call the function getServer() in Servers classes
 ```java

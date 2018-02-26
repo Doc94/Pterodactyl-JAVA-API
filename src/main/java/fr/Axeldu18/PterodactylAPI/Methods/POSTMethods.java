@@ -29,12 +29,9 @@ import lombok.Getter;
 import org.apache.commons.lang.Validate;
 import org.json.JSONObject;
 
-import java.io.DataOutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.logging.Level;
-
 public class POSTMethods {
+
+	final private static String METHOD = "POST";
 
 	private PterodactylAPI main;
 
@@ -124,33 +121,7 @@ public class POSTMethods {
 	}
 
 	public String call(String methodURL, String data){
-		try {
-			URL url = new URL(methodURL);
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-			connection.setRequestMethod("POST");
-			connection.setRequestProperty("User-Agent", "Pterodactyl Java-API");
-			connection.setRequestProperty("Authorization", "Bearer " + main.getApplicationKey());
-			connection.setRequestProperty("Content-Type","application/json");
-			connection.setRequestProperty("Accept","application/vnd.pterodactyl.v1+json");
-			connection.setDoOutput(true);
-
-			DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-			wr.writeBytes(data);
-			wr.flush();
-			wr.close();
-
-			int responseCode = connection.getResponseCode();
-			if (responseCode == HttpURLConnection.HTTP_OK) {
-				return main.readResponse(connection.getInputStream()).toString();
-			} else {
-				return main.readResponse(connection.getErrorStream()).toString();
-			}
-		} catch (Exception e) {
-			main.log(Level.SEVERE, e.getMessage());
-			e.printStackTrace();
-			return null;
-		}
+		return main.call(METHOD,methodURL,data);
 	}
 
 	@AllArgsConstructor

@@ -23,33 +23,29 @@ SOFTWARE.
 */
 package fr.Axeldu18.PterodactylAPI;
 
-import fr.Axeldu18.PterodactylAPI.Classes.Server;
-import fr.Axeldu18.PterodactylAPI.Classes.ServerAttributes;
 import fr.Axeldu18.PterodactylAPI.Methods.GETMethods;
 import fr.Axeldu18.PterodactylAPI.Methods.POSTMethods;
-import fr.Axeldu18.PterodactylAPI.Methods.PUTMethods;
+import fr.Axeldu18.PterodactylAPI.Methods.PATCHMethods;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.codec.binary.Base64;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.HashMap;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import fr.Axeldu18.PterodactylAPI.Methods.DELETEMethods;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class PterodactylAPI {
 
 	private Logger logger;
 	private @Getter GETMethods getMethods;
 	private @Getter POSTMethods postMethods;
-	private @Getter PUTMethods putMethods;
+	private @Getter
+	PATCHMethods putMethods;
 	private @Getter DELETEMethods deleteMethods;
 	private @Getter Users users;
 	private @Getter Servers servers;
@@ -60,16 +56,17 @@ public class PterodactylAPI {
 	private String mainURL;
 	private @Getter @Setter String applicationKey;
 	private @Getter @Setter boolean secureConection;
+	private @Getter @Setter boolean debug;
 
-	public static void main(String[] args){
-
+	public static void main(String[] args) {
+		(new PterodactylAPI()).log(Level.INFO,"API Loaded, but not contain any information for work.");
 	}
 	
 	public PterodactylAPI(){
 		this.logger = Logger.getLogger("PterodactylAPI");
 		this.getMethods = new GETMethods(this);
 		this.postMethods = new POSTMethods(this);
-		this.putMethods = new PUTMethods(this);
+		this.putMethods = new PATCHMethods(this);
 		this.deleteMethods = new DELETEMethods(this);
 		this.users = new Users(this);
 		this.servers = new Servers(this);
@@ -116,7 +113,7 @@ public class PterodactylAPI {
 	 * @param in a valid {@link InputStream}
 	 * @return a valid {@link StringBuffer} or {@link null}
 	 */
-	public StringBuffer readResponse(InputStream in) {
+	private StringBuffer readResponse(InputStream in) {
 		try {
 			BufferedReader idn = new BufferedReader(new InputStreamReader(in));
 			String inputLine;
@@ -129,6 +126,63 @@ public class PterodactylAPI {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	private HttpURLConnection callConnection(String type, String methodURL) {
+		try {
+			URL url = new URL(methodURL);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod(type);
+			connection.setRequestProperty("User-Agent", "Pterodactyl Java-API");
+			connection.setRequestProperty("Authorization", "Bearer " + getApplicationKey());
+			connection.setRequestProperty("Content-Type","application/json");
+			connection.setRequestProperty("Accept","application/vnd.pterodactyl.v1+json");
+			return connection;
+		} catch (Exception ex) {
+			return null;
+		}
+	}
+
+	public String call(String methodREST, String methodURL, String data) {
+		try {
+			HttpURLConnection connection = callConnection(methodREST,methodURL);
+			if(data != null && !data.isEmpty()) {
+				connection.setDoOutput(true);
+
+				DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+				wr.writeBytes(data);
+				wr.flush();
+				wr.close();
+			}
+
+			int responseCode = connection.getResponseCode();
+			if (responseCode == HttpURLConnection.HTTP_OK) {
+				return readResponse(connection.getInputStream()).toString();
+			} else {
+				return readResponse(connection.getErrorStream()).toString();
+			}
+		} catch (Exception e) {
+			log(Level.SEVERE, e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public String processResponse() {
+		return null;
+	}
+
+	public void requestError(int code, InputStream in) {
+		String response = readResponse(in).toString();
+		JSONArray jsonErrors = new JSONObject(response).getJSONArray("errors");
+		switch (code) {
+			case HttpURLConnection.HTTP_UNAUTHORIZED:
+				JSONObject jsonError = jsonErrors.getJSONObject(0);
+				//throw new PterodactylException(jsonError.getString("code"),jsonError.getString("status"),jsonError.getString("detail"));
+			case HttpURLConnection.HTTP_NOT_FOUND:
+				//JSONObject jsonError = jsonErrors.getJSONObject(0);
+				//throw new PterodactylException(jsonError.getString("code"),jsonError.getString("status"),jsonError.getString("detail"));
 		}
 	}
 }

@@ -54,10 +54,10 @@ public class Nodes {
 		for(int i=0;i<jsonArray.length();i++){
 			JSONObject nodeJSON = jsonArray.getJSONObject(i);
 			Node node = new Node();
-			node.setId(nodeJSON.getInt("id"));
-			node.setType(nodeJSON.getString("type"));
+			node.setType(nodeJSON.getString("object"));
 			JSONObject nodeAttributesJSON = nodeJSON.getJSONObject("attributes");
 			NodeAttributes nodeAttributes = new NodeAttributes();
+			nodeAttributes.setId(nodeAttributesJSON.getInt("id"));
 			nodeAttributes.setPublicNode(nodeAttributesJSON.getInt("public"));
 			nodeAttributes.setName(nodeAttributesJSON.getString("name"));
 			nodeAttributes.setLocationID(nodeAttributesJSON.getInt("location_id"));
@@ -69,13 +69,13 @@ public class Nodes {
 			nodeAttributes.setDisk(nodeAttributesJSON.getInt("disk"));
 			nodeAttributes.setDiskOverallocate(nodeAttributesJSON.getInt("disk_overallocate"));
 			nodeAttributes.setUploadSize(nodeAttributesJSON.getInt("upload_size"));
-			nodeAttributes.setDeamonListen(nodeAttributesJSON.getInt("daemonListen"));
-			nodeAttributes.setDeamonSFTP(nodeAttributesJSON.getInt("daemonSFTP"));
-			nodeAttributes.setDeamonBase(nodeAttributesJSON.getString("daemonBase"));
+			nodeAttributes.setDeamonListen(nodeAttributesJSON.getInt("daemon_listen"));
+			nodeAttributes.setDeamonSFTP(nodeAttributesJSON.getInt("daemon_sftp"));
+			nodeAttributes.setDeamonBase(nodeAttributesJSON.getString("daemon_base"));
 			nodeAttributes.setCreatedAT(nodeAttributesJSON.getString("created_at"));
 			nodeAttributes.setUpdatedAT(nodeAttributesJSON.getString("updated_at"));
 			node.setAttributes(nodeAttributes);
-			nodesMap.put(node.getId(), node);
+			nodesMap.put(node.getAttributes().getId(), node);
 		}
 		return nodesMap;
 	}
@@ -86,18 +86,17 @@ public class Nodes {
 	 * @return Return all the targeted NODE with ATTRIBUTES
 	 */
 	public Node getNode(int id){
-		JSONObject jsonObject = new JSONObject(main.getGetMethods().get(Methods.NODES_SINGLE_NODE, id));
-		if(!jsonObject.has("data")){
-			main.log(Level.SEVERE, jsonObject.toString());
-			main.log(Level.SEVERE, "No NODE found with this ID");
+		JSONObject nodeJSON = new JSONObject(main.getGetMethods().get(Methods.NODES_SINGLE_NODE, id));
+		if(!nodeJSON.has("attributes")){
+			main.log(Level.SEVERE, nodeJSON.toString());
+			main.log(Level.SEVERE, "No NODE found with the ID " + id);
 			return new Node();
 		}
-		JSONObject nodeJSON = jsonObject.getJSONObject("data");
 		Node node = new Node();
-		node.setId(nodeJSON.getInt("id"));
-		node.setType(nodeJSON.getString("type"));
+		node.setType(nodeJSON.getString("object"));
 		JSONObject nodeAttributesJSON = nodeJSON.getJSONObject("attributes");
 		NodeAttributes nodeAttributes = new NodeAttributes();
+		nodeAttributes.setId(nodeAttributesJSON.getInt("id"));
 		nodeAttributes.setPublicNode(nodeAttributesJSON.getInt("public"));
 		nodeAttributes.setName(nodeAttributesJSON.getString("name"));
 		nodeAttributes.setLocationID(nodeAttributesJSON.getInt("location_id"));
@@ -109,9 +108,9 @@ public class Nodes {
 		nodeAttributes.setDisk(nodeAttributesJSON.getInt("disk"));
 		nodeAttributes.setDiskOverallocate(nodeAttributesJSON.getInt("disk_overallocate"));
 		nodeAttributes.setUploadSize(nodeAttributesJSON.getInt("upload_size"));
-		nodeAttributes.setDeamonListen(nodeAttributesJSON.getInt("daemonListen"));
-		nodeAttributes.setDeamonSFTP(nodeAttributesJSON.getInt("daemonSFTP"));
-		nodeAttributes.setDeamonBase(nodeAttributesJSON.getString("daemonBase"));
+		nodeAttributes.setDeamonListen(nodeAttributesJSON.getInt("daemon_listen"));
+		nodeAttributes.setDeamonSFTP(nodeAttributesJSON.getInt("daemon_sftp"));
+		nodeAttributes.setDeamonBase(nodeAttributesJSON.getString("daemon_base"));
 		nodeAttributes.setCreatedAT(nodeAttributesJSON.getString("created_at"));
 		nodeAttributes.setUpdatedAT(nodeAttributesJSON.getString("updated_at"));
 		node.setAttributes(nodeAttributes);

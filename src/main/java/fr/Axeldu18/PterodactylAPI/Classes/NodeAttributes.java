@@ -29,6 +29,7 @@ import lombok.ToString;
 
 @ToString
 public class NodeAttributes {
+	private @Getter @Setter int id;
 	private @Getter @Setter int publicNode;
 	private @Getter @Setter String name;
 	private @Getter @Setter int locationID;

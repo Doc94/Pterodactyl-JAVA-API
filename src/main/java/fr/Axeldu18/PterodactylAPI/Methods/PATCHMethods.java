@@ -1,7 +1,7 @@
 /**
 MIT License
 
-Copyright (c) 2017 Axel Vatan, Marc Sollie
+Copyright (c) 2017 Axel Vatan
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,55 +23,33 @@ SOFTWARE.
 */
 package fr.Axeldu18.PterodactylAPI.Methods;
 
-import java.util.logging.Level;
-
 import fr.Axeldu18.PterodactylAPI.PterodactylAPI;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-public class DELETEMethods {
+public class PATCHMethods {
 
-    final private static String METHOD = "DELETE";
-	
+	final private static String METHOD = "PATCH";
+
 	private PterodactylAPI main;
-	
-	@Getter
-	private String lastError = "";
-	
-	public DELETEMethods(PterodactylAPI main){
+
+	public PATCHMethods(PterodactylAPI main){
 		this.main = main;
 	}
 	
-	public boolean delete(Methods method){
-		if(method.getURL().contains("{params}")){
-			main.log(Level.SEVERE, "The method '" + method.toString() + "'contains field {params}, please use 'get' withs params function for this");
-			return false;
-		}
-		return call(main.getMainURL() + method.getURL());
-	}
-	
-	public boolean delete(Methods method, String params){
-		if(!method.getURL().contains("{params}")){
-			main.log(Level.SEVERE, "The method '" + method.toString() + "' doesn't contains field {params}, please use 'get' function for this");
-			return false;
-		}
-		return call(main.getMainURL() + method.getURL().replace("{params}", params));
-	}
-	
-	public boolean delete(Methods method, int id){
-		return this.delete(method, id + "");
-	}
-	
-	private boolean call(String methodURL){
-		return !main.call(METHOD,methodURL,"").contains("error");
+	public String call(String methodURL, String data){
+		return main.call(METHOD,methodURL,data);
 	}
 	
 	@AllArgsConstructor
 	public enum Methods{
+
+		USERS_UPDATE_USER("api/application/users/{params}"), //Update specified user
 		
-		USER("api/application/users/{params}"), //Returns information about a single user.
-		SERVER("api/application/servers/{params}"), //Lists information about a single server.
-		NODE("api/application/nodes/{params}"); //View data for a single node.
+		SERVERS_DETAIL_SERVER("api/application/servers/12/details"), //Get details of specified server
+		SERVERS_CONTAINER_SERVER("api/application/servers/{params}/container"),
+		SERVERS_BUILD_SERVER("api/application/servers/{params}/build"),
+		SERVERS_STARTUP_SERVER("api/application/server{params}/startup");
 		
 		private @Getter String URL;
 	}
