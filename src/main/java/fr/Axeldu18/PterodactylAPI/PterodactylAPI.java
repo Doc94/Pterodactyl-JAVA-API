@@ -1,4 +1,4 @@
-/**
+/*
 MIT License
 
 Copyright (c) 2017 Axel Vatan
@@ -44,8 +44,7 @@ public class PterodactylAPI {
 	private Logger logger;
 	private @Getter GETMethods getMethods;
 	private @Getter POSTMethods postMethods;
-	private @Getter
-	PATCHMethods putMethods;
+	private @Getter PATCHMethods patchMethods;
 	private @Getter DELETEMethods deleteMethods;
 	private @Getter Users users;
 	private @Getter Servers servers;
@@ -66,7 +65,7 @@ public class PterodactylAPI {
 		this.logger = Logger.getLogger("PterodactylAPI");
 		this.getMethods = new GETMethods(this);
 		this.postMethods = new POSTMethods(this);
-		this.putMethods = new PATCHMethods(this);
+		this.patchMethods = new PATCHMethods(this);
 		this.deleteMethods = new DELETEMethods(this);
 		this.users = new Users(this);
 		this.servers = new Servers(this);
@@ -129,19 +128,15 @@ public class PterodactylAPI {
 		}
 	}
 
-	private HttpURLConnection callConnection(String type, String methodURL) {
-		try {
-			URL url = new URL(methodURL);
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod(type);
-			connection.setRequestProperty("User-Agent", "Pterodactyl Java-API");
-			connection.setRequestProperty("Authorization", "Bearer " + getApplicationKey());
-			connection.setRequestProperty("Content-Type","application/json");
-			connection.setRequestProperty("Accept","application/vnd.pterodactyl.v1+json");
-			return connection;
-		} catch (Exception ex) {
-			return null;
-		}
+	private HttpURLConnection callConnection(String type, String methodURL) throws IOException {
+		URL url = new URL(methodURL);
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestMethod(type);
+		connection.setRequestProperty("User-Agent", "Pterodactyl Java-API");
+		connection.setRequestProperty("Authorization", "Bearer " + getApplicationKey());
+		connection.setRequestProperty("Content-Type","application/json");
+		connection.setRequestProperty("Accept","application/vnd.pterodactyl.v1+json");
+		return connection;
 	}
 
 	public String call(String methodREST, String methodURL, String data) {
