@@ -58,7 +58,7 @@ public class Nodes {
 			JSONObject nodeAttributesJSON = nodeJSON.getJSONObject("attributes");
 			NodeAttributes nodeAttributes = new NodeAttributes();
 			nodeAttributes.setId(nodeAttributesJSON.getInt("id"));
-			nodeAttributes.setPublicNode(nodeAttributesJSON.getInt("public"));
+			nodeAttributes.setPublicNode(nodeAttributesJSON.getBoolean("public"));
 			nodeAttributes.setName(nodeAttributesJSON.getString("name"));
 			nodeAttributes.setLocationID(nodeAttributesJSON.getInt("location_id"));
 			nodeAttributes.setFqdn(nodeAttributesJSON.getString("fqdn"));
@@ -97,7 +97,7 @@ public class Nodes {
 		JSONObject nodeAttributesJSON = nodeJSON.getJSONObject("attributes");
 		NodeAttributes nodeAttributes = new NodeAttributes();
 		nodeAttributes.setId(nodeAttributesJSON.getInt("id"));
-		nodeAttributes.setPublicNode(nodeAttributesJSON.getInt("public"));
+		nodeAttributes.setPublicNode(nodeAttributesJSON.getBoolean("public"));
 		nodeAttributes.setName(nodeAttributesJSON.getString("name"));
 		nodeAttributes.setLocationID(nodeAttributesJSON.getInt("location_id"));
 		nodeAttributes.setFqdn(nodeAttributesJSON.getString("fqdn"));
